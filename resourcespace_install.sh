@@ -64,7 +64,7 @@ sudo sed -i s'/^upload_max_filesize.*/upload_max_filesize = 999M/' /etc/php.ini
 sudo systemctl restart php-fpm
 
 #Complete installation on web
-sudo chmod -R 750 include/
-cd ..
-sudo chgrp -R apache resourcespace/
+# sudo chmod -R 750 include/
+# cd ..
+# sudo chgrp -R apache resourcespace/
 
