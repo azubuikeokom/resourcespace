@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e
 sudo yum update -y
 sudo yum install -y amazon-efs-utils
 sudo amazon-linux-extras install php8.2  #installs php-cli php-common php-fpm php-mysqlnd php-pdo libzip
