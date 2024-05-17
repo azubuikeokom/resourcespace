@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+
 sudo yum update -y
 sudo yum install -y amazon-efs-utils
 sudo amazon-linux-extras install php8.2 -y #installs php-cli php-common php-fpm php-mysqlnd php-pdo libzip
@@ -27,11 +27,15 @@ fi
 cd resourcespace
 max_retries=3
 retry_count=0
-
-while [ $? -ne 0 ] && [ $retry_count -lt $max_retries ]; do
+RC=1
+while [ $RC -ne 0 ] && [ $retry_count -lt $max_retries ]; do
     sudo svn co https://svn.resourcespace.com/svn/rs/releases/10.3 .
-    ((retry_count++))
-    echo "Retrying... Attempt $retry_count"
+    RC=$?
+    if [ $RC -ne 0 ]; then
+        ((retry_count++))
+        echo "Retrying... Attempt $retry_count"
+        sudo svn cleanup
+    fi
 done
 if [ -f "filestore" ]; then
     echo "File exists"
@@ -40,7 +44,6 @@ else
     sudo chmod -R 777 filestore
     sudo chmod -R 777 include
 fi
-
 #Create resourcespace config
 sudo touch /etc/httpd/conf.d/resourcespace.conf
 sudo tee /etc/httpd/conf.d/resourcespace.conf > /dev/null <<EOF
