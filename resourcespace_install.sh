@@ -25,7 +25,7 @@ else
     sudo mkdir resourcespace
 fi
 cd resourcespace
-max_retries=3
+max_retries=5
 retry_count=0
 RC=1
 while [ $RC -ne 0 ] && [ $retry_count -lt $max_retries ]; do
